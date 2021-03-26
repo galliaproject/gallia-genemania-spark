@@ -39,7 +39,7 @@ echo ${BUCKET?}
  CORE_COMMIT="e82e390"
 SPARK_COMMIT="5f848a8"
 MANIA_COMMIT="ff6634c"
-      COMMIT="bbedb51"
+      COMMIT="73f0f6d"
 
 # ---------------------------------------------------------------------------
 mkdir /tmp/${BUCKET?}
@@ -57,9 +57,11 @@ printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/galli
 printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/gallia-spark    ; cd ./gallia-spark    ; git checkout ${SPARK_COMMIT?}; touch _____commit_${SPARK_COMMIT?}; cd ..
 printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/gallia-genemania; cd ./gallia-genemania; git checkout ${MANIA_COMMIT?}; touch _____commit_${MANIA_COMMIT?}; cd ..
 printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/${NAME?}        ; cd ./${NAME?}        ; git checkout ${COMMIT?}      ; touch _____commit_${COMMIT?}      ; cd ..
-echo 'addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.15.0")' > ./${NAME?}/project/plugins.sbt # sigh sbt..
 
-tree -L 3 /tmp/${BUCKET?}/code
+mkdir -p /tmp/${BUCKET?}/code/${NAME?}/project; echo 'addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.15.0")' > /tmp/${BUCKET?}/code/${NAME?}/project/plugins.sbt # sigh sbt..
+
+tree -L 2 /tmp/${BUCKET?}/code
+read -p "kk"
 
 # ---------------------------------------------------------------------------
 # disable 2.13
