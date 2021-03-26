@@ -36,10 +36,10 @@ if [ "${MAX_FILES}" == "ALL" ]; then MAX_FILES=1000; fi
 echo ${BUCKET?}
 
 # ---------------------------------------------------------------------------
- CORE_COMMIT="HEAD"
-SPARK_COMMIT="HEAD"
-MANIA_COMMIT="HEAD"
-      COMMIT="HEAD"
+ CORE_COMMIT="e82e390"
+SPARK_COMMIT="5f848a8"
+MANIA_COMMIT="ff6634c"
+      COMMIT="bbedb51"
 
 # ---------------------------------------------------------------------------
 mkdir /tmp/${BUCKET?}
@@ -163,8 +163,9 @@ done
 # show results
 
 # ---------------------------------------------------------------------------
+echo "aws s3 ls s3://${BUCKET?}/output/"
 aws s3 ls s3://${BUCKET?}/output/ | wc -l
-aws s3 ls s3://${BUCKET?}/output/ | head # should show some output files if did not terminate with errors
+aws s3 ls s3://${BUCKET?}/output/ | grep "part-" | head # should show some output files if did not terminate with errors
 
 # ---------------------------------------------------------------------------
 ## grab step ID (eg "s-15GAUY1B34G0W")
