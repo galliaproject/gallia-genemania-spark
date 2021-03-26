@@ -53,10 +53,13 @@ mkdir /tmp/${BUCKET?}/code
 ## get code
 cd /tmp/${BUCKET?}/code
 
-git clone https://github.com/galliaproject/gallia-core     ; cd ./gallia-core     ; git checkout ${CORE_COMMIT?} ; cd ..
-git clone https://github.com/galliaproject/gallia-spark    ; cd ./gallia-spark    ; git checkout ${SPARK_COMMIT?}; cd ..
-git clone https://github.com/galliaproject/gallia-genemania; cd ./gallia-genemania; git checkout ${MANIA_COMMIT?}; cd ..
-git clone https://github.com/galliaproject/${NAME?}        ; cd ./${NAME?}        ; git checkout ${COMMIT?}      ; cd ..
+printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/gallia-core     ; cd ./gallia-core     ; git checkout ${CORE_COMMIT?} ; touch _____commit_${CORE_COMMIT?} ; cd ..
+printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/gallia-spark    ; cd ./gallia-spark    ; git checkout ${SPARK_COMMIT?}; touch _____commit_${SPARK_COMMIT?}; cd ..
+printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/gallia-genemania; cd ./gallia-genemania; git checkout ${MANIA_COMMIT?}; touch _____commit_${MANIA_COMMIT?}; cd ..
+printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/${NAME?}        ; cd ./${NAME?}        ; git checkout ${COMMIT?}      ; touch _____commit_${COMMIT?}      ; cd ..
+echo 'addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.15.0")' > ./${NAME?}/project/plugins.sbt # sigh sbt..
+
+tree -L 3 /tmp/${BUCKET?}/code
 
 # ---------------------------------------------------------------------------
 # disable 2.13
