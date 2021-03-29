@@ -61,7 +61,6 @@ printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/${NAM
 mkdir -p /tmp/${BUCKET?}/code/${NAME?}/project; echo 'addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.15.0")' > /tmp/${BUCKET?}/code/${NAME?}/project/plugins.sbt # sigh sbt..
 
 tree -L 2 /tmp/${BUCKET?}/code
-read -p "kk"
 
 # ---------------------------------------------------------------------------
 # disable 2.13
