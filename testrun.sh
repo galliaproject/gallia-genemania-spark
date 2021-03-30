@@ -39,7 +39,7 @@ echo ${BUCKET?}
  CORE_COMMIT="76ce200"
 SPARK_COMMIT="37b0037"
 MANIA_COMMIT="ea24696"
-      COMMIT="fd81b53"
+      COMMIT="7d2da3a"
 
 # ---------------------------------------------------------------------------
 mkdir /tmp/${BUCKET?}
