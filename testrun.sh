@@ -36,9 +36,9 @@ if [ "${MAX_FILES}" == "ALL" ]; then MAX_FILES=1000; fi
 echo ${BUCKET?}
 
 # ---------------------------------------------------------------------------
- CORE_COMMIT="dec9e39"
-SPARK_COMMIT="b1a792b"
-MANIA_COMMIT="ff6634c"
+ CORE_COMMIT="76ce200"
+SPARK_COMMIT="37b0037"
+MANIA_COMMIT="ea24696"
       COMMIT="fd81b53"
 
 # ---------------------------------------------------------------------------
