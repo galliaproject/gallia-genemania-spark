@@ -36,8 +36,8 @@ if [ "${MAX_FILES}" == "ALL" ]; then MAX_FILES=1000; fi
 echo ${BUCKET?}
 
 # ---------------------------------------------------------------------------
- CORE_COMMIT="e82e390"
-SPARK_COMMIT="5f848a8"
+ CORE_COMMIT="dec9e39"
+SPARK_COMMIT="b1a792b"
 MANIA_COMMIT="ff6634c"
       COMMIT="7e3f16a"
 
@@ -53,10 +53,10 @@ mkdir /tmp/${BUCKET?}/code
 ## get code
 cd /tmp/${BUCKET?}/code
 
-printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/gallia-core     ; cd ./gallia-core     ; git checkout ${CORE_COMMIT?} ; touch ________commit_${CORE_COMMIT?} ; cd ..
-printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/gallia-spark    ; cd ./gallia-spark    ; git checkout ${SPARK_COMMIT?}; touch ________commit_${SPARK_COMMIT?}; cd ..
-printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/gallia-genemania; cd ./gallia-genemania; git checkout ${MANIA_COMMIT?}; touch ________commit_${MANIA_COMMIT?}; cd ..
-printf '=%.0s' {1..75} && echo; git clone https://github.com/galliaproject/${NAME?}        ; cd ./${NAME?}        ; git checkout ${COMMIT?}      ; touch ________commit_${COMMIT?}      ; cd ..
+printf '=%.0s' {1..75} && echo; git clone git@github.com:galliaproject/gallia-core     ; cd ./gallia-core     ; git checkout ${CORE_COMMIT?} ; touch ________commit_${CORE_COMMIT?} ; cd ..
+printf '=%.0s' {1..75} && echo; git clone git@github.com:galliaproject/gallia-spark    ; cd ./gallia-spark    ; git checkout ${SPARK_COMMIT?}; touch ________commit_${SPARK_COMMIT?}; cd ..
+printf '=%.0s' {1..75} && echo; git clone git@github.com:galliaproject/gallia-genemania; cd ./gallia-genemania; git checkout ${MANIA_COMMIT?}; touch ________commit_${MANIA_COMMIT?}; cd ..
+printf '=%.0s' {1..75} && echo; git clone git@github.com:galliaproject/${NAME?}        ; cd ./${NAME?}        ; git checkout ${COMMIT?}      ; touch ________commit_${COMMIT?}      ; cd ..
 
 mkdir -p /tmp/${BUCKET?}/code/${NAME?}/project; echo 'addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.15.0")' > /tmp/${BUCKET?}/code/${NAME?}/project/plugins.sbt # sigh sbt..
 
@@ -91,11 +91,13 @@ if true; then
 
   # 643 files at time of writing, so about ~1h with the pauses
   PARENT="http://genemania.org/data/current/Homo_sapiens"
+  INDEX=0
 
   curl -sS http://genemania.org/data/current/Homo_sapiens/networks.txt | gzip -c > /tmp/${BUCKET?}/data/networks.txt.gz
   for FILENAME in $(zcat /tmp/${BUCKET?}/data/networks.txt.gz | tail -n+2 | cut -f1 | head -n ${MAX_FILES?}); do
+    INDEX=$[INDEX+1]
+    echo -e "\t${INDEX?}\t${FILENAME?}"
     sleep 5 # let's be considerate
-    echo -e "\t${FILENAME?}"
 
     # note: GZIP is not best format here but will do for demonstration purposes
     curl -sS http://genemania.org/data/current/Homo_sapiens/${FILENAME?} | gzip -c > /tmp/${BUCKET?}/data/${FILENAME?}.gz
@@ -109,10 +111,15 @@ fi
 # ===========================================================================
 ## create and provision s3 bucket
 
-aws s3api \
-  create-bucket \
-    --create-bucket-configuration LocationConstraint=$(aws configure get region) \
-    --bucket ${BUCKET?} # see https://github.com/aws/aws-cli/issues/2603
+REGION=$(aws configure get region)
+echo "REGION=${REGION?}"
+
+# ---------------------------------------------------------------------------
+if [ "${REGION?}" == "us-east-1" ]; then
+  aws s3api create-bucket --bucket ${BUCKET?} 
+else
+  aws s3api create-bucket --bucket ${BUCKET?} --create-bucket-configuration LocationConstraint=${REGION?} # see https://github.com/aws/aws-cli/issues/2603
+fi
 
 # ---------------------------------------------------------------------------
 aws s3 cp /tmp/${BUCKET?}/code.tgz                                                          s3://${BUCKET?}/source.tgz
