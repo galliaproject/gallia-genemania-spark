@@ -31,7 +31,7 @@ To run it on a small subset (expect ~$3<sup>[[2]](#cost-estimate)</sup> in AWS c
 ./testrun.sh 10 4 # process first 10 files, using 4 workers
 ```
 
-To run it in full (expect ~$15<sup>[[2]](#cost-estimate)</sup> in AWS charges), use:
+To run it in full (expect ~$18<sup>[[2]](#cost-estimate)</sup> in AWS charges), use:
 
 ```bash
 ./testrun.sh ALL <number-of-workers> # eg 60 workers
@@ -58,14 +58,14 @@ Notable limitations are:
   - Spark support for 2.13 is still immature
 - The I/O abstractions need to be aligned with the core's, they are somewhat hacky at the moment:
   - gallia-core's `io.in` mechanisms ([fluency](https://github.com/galliaproject/gallia-core/blob/init/src/main/scala/gallia/io/in/ReadFluency.scala), [actions](https://github.com/galliaproject/gallia-core/tree/init/src/main/scala/gallia/actions/in) and [atoms](https://github.com/galliaproject/gallia-core/blob/master/src/main/scala/gallia/atoms/AtomsIX.scala)) vs [gallia-spark](https://github.com/galliaproject/gallia-spark/blob/master/src/main/scala/gallia/spark/SparkPackage.scala#L40)'s
-  - gallia-core's `io.out` ([fluency](https://github.com/galliaproject/gallia-core/blob/init/src/main/scala/gallia/io/out/WriteFluency.scala), [actions](https://github.com/galliaproject/gallia-core/blob/master/src/main/scala/gallia/actions/out/ActionsOut.scala) and [atoms](https://github.com/galliaproject/gallia-core/blob/master/src/main/scala/gallia/atoms/AtomsXO.scala)) mechanism vs [gallia-spark](https://github.com/galliaproject/gallia-spark/blob/master/src/main/scala/gallia/spark/SparkPackage.scala#L76)'s
+  - gallia-core's `io.out` mechanisms ([fluency](https://github.com/galliaproject/gallia-core/blob/init/src/main/scala/gallia/io/out/WriteFluency.scala), [actions](https://github.com/galliaproject/gallia-core/blob/master/src/main/scala/gallia/actions/out/ActionsOut.scala) and [atoms](https://github.com/galliaproject/gallia-core/blob/master/src/main/scala/gallia/atoms/AtomsXO.scala)) vs [gallia-spark](https://github.com/galliaproject/gallia-spark/blob/master/src/main/scala/gallia/spark/SparkPackage.scala#L76)'s
 
 See list of [spark-related tasks](https://github.com/galliaproject/gallia-docs/blob/master/tasks.md#spark) for more limitations.
 
 #### Footnotes
 
 - <sup>[1]</sup> <a name="number-of-workers"></a> ~+1h to accumulate the input data and upload it on s3 bucket (using a 5 seconds courtesy delay in between each request)
-- <sup>[2]</sup> <a name="cost-estimate"></a>Cost estimates provided are not guaranteed __at all__, run it at own risk (but please let me know if your's are significantly different)
+- <sup>[2]</sup> <a name="cost-estimate"></a>Cost estimates provided are not guaranteed __at all__, run it at own risk (but please let me know if yours are significantly different)
 
 ## Contact
 You may contact the author at: <sub><img src="./images/ct.png"></sub>
