@@ -36,10 +36,10 @@ if [ "${MAX_FILES}" == "ALL" ]; then MAX_FILES=1000; fi
 echo ${BUCKET?}
 
 # ---------------------------------------------------------------------------
- CORE_COMMIT="76ce200"
-SPARK_COMMIT="37b0037"
-MANIA_COMMIT="ea24696"
-      COMMIT="7d2da3a"
+ CORE_COMMIT="v0.3.0"
+SPARK_COMMIT="v0.3.0"
+MANIA_COMMIT="v0.3.0"
+      COMMIT="HEAD"
 
 # ---------------------------------------------------------------------------
 mkdir /tmp/${BUCKET?}
