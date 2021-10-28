@@ -21,7 +21,6 @@ lazy val galliaVersion = "0.3.0"
 
 // ---------------------------------------------------------------------------
 libraryDependencies ++= Seq(
-  "io.github.galliaproject" %% "gallia-core"      % galliaVersion,
   "io.github.galliaproject" %% "gallia-spark"     % galliaVersion,
   "io.github.galliaproject" %% "gallia-genemania" % galliaVersion,
   "org.apache.spark"        %% "spark-core" % "2.4.5" % "provided" withSources()) // withJavadoc(): not found https://repo1.maven.org/maven2/org/apache/spark/spark-core_2.12/2.4.5/spark-core_2.12-2.4.5-javadoc.jar

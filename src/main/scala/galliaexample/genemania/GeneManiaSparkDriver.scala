@@ -1,6 +1,5 @@
 package galliaexample.genemania
 
-import aptus._ // for .as.noneIf
 import gallia.spark._
 
 // ===========================================================================
@@ -21,7 +20,7 @@ object GeneManiaSparkDriver {
 
     // ---------------------------------------------------------------------------
     val mania = new GeneMania(
-          inputDirPath, inputCompression, maxFiles.as.noneIf(_ == 0),
+          inputDirPath, inputCompression, if (maxFiles == 0) None else Some(maxFiles),
           outputDirPath)
 
     // ===========================================================================
