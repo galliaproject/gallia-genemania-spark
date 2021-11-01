@@ -58,11 +58,6 @@ cd ..
 tree -L 2 /tmp/${BUCKET?}/code
 
 # ---------------------------------------------------------------------------
-# disable 2.13
-cat  /tmp/${BUCKET?}/code/gallia-core/project/GalliaScalaVersions.scala | sed 's/scala213,/\/\/scala213,/' > /tmp/${BUCKET?}/code/gallia-core/project/GalliaScalaVersions.scala.tmp &&
-  mv /tmp/${BUCKET?}/code/gallia-core/project/GalliaScalaVersions.scala.tmp                                  /tmp/${BUCKET?}/code/gallia-core/project/GalliaScalaVersions.scala # see t210309100048
-
-# ---------------------------------------------------------------------------
 ## create uberjar (minus spark itself, provided by EMR)
 cd /tmp/${BUCKET?}/code/${NAME?} && sbt ++${SCALA_VERSION?}.13 assembly # see project/plugins.sbt
 ls /tmp/${BUCKET?}/code/${NAME?}/target/scala-${SCALA_VERSION?}/${NAME?}-assembly-${GALLIA_VERSION?}.jar # created by assembly command above
