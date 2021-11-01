@@ -30,18 +30,13 @@ MAX_FILES=${MAX_FILES:=10}
 if [ "${MAX_FILES}" == "ALL" ]; then MAX_FILES=1000; fi
 
 # ---------------------------------------------------------------------------
-     NAME="gallia-genemania-spark"
-   BUCKET="${NAME?}$(date '+%y%m%d%H%M%S')"
-  VERSION="0.1.0"
+          NAME="gallia-genemania-spark"
+        BUCKET="${NAME?}$(date '+%y%m%d%H%M%S')"
+ SCALA_VERSION="2.12" # 2.12.13
+GALLIA_VERSION="0.3.1"
+
+# ---------------------------------------------------------------------------
 echo ${BUCKET?}
-
-# ---------------------------------------------------------------------------
- CORE_COMMIT="v0.3.0"
-SPARK_COMMIT="v0.3.0"
-MANIA_COMMIT="v0.3.0"
-      COMMIT="HEAD"
-
-# ---------------------------------------------------------------------------
 mkdir /tmp/${BUCKET?}
 
 # ===========================================================================
@@ -53,13 +48,13 @@ mkdir /tmp/${BUCKET?}/code
 ## get code
 cd /tmp/${BUCKET?}/code
 
-printf '=%.0s' {1..75} && echo; git clone git@github.com:galliaproject/gallia-core     ; cd ./gallia-core     ; git checkout ${CORE_COMMIT?} ; touch ________commit_${CORE_COMMIT?} ; cd ..
-printf '=%.0s' {1..75} && echo; git clone git@github.com:galliaproject/gallia-spark    ; cd ./gallia-spark    ; git checkout ${SPARK_COMMIT?}; touch ________commit_${SPARK_COMMIT?}; cd ..
-printf '=%.0s' {1..75} && echo; git clone git@github.com:galliaproject/gallia-genemania; cd ./gallia-genemania; git checkout ${MANIA_COMMIT?}; touch ________commit_${MANIA_COMMIT?}; cd ..
-printf '=%.0s' {1..75} && echo; git clone git@github.com:galliaproject/${NAME?}        ; cd ./${NAME?}        ; git checkout ${COMMIT?}      ; touch ________commit_${COMMIT?}      ; cd ..
+printf '=%.0s' {1..75} && echo
 
-mkdir -p /tmp/${BUCKET?}/code/${NAME?}/project; echo 'addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.15.0")' > /tmp/${BUCKET?}/code/${NAME?}/project/plugins.sbt # sigh sbt..
-
+git clone git@github.com:galliaproject/${NAME?}
+cd ./${NAME?}
+git checkout "v${GALLIA_VERSION?}"
+touch ________commit_v${GALLIA_VERSION?}
+cd ..
 tree -L 2 /tmp/${BUCKET?}/code
 
 # ---------------------------------------------------------------------------
@@ -69,8 +64,8 @@ cat  /tmp/${BUCKET?}/code/gallia-core/project/GalliaScalaVersions.scala | sed 's
 
 # ---------------------------------------------------------------------------
 ## create uberjar (minus spark itself, provided by EMR)
-cd /tmp/${BUCKET?}/code/${NAME?} && sbt assembly # see project/plugins.sbt
-ls /tmp/${BUCKET?}/code/${NAME?}/target/scala-2.12/${NAME?}-assembly-${VERSION?}.jar # created by assembly command above
+cd /tmp/${BUCKET?}/code/${NAME?} && sbt ++${SCALA_VERSION?}.13 assembly # see project/plugins.sbt
+ls /tmp/${BUCKET?}/code/${NAME?}/target/scala-${SCALA_VERSION?}/${NAME?}-assembly-${GALLIA_VERSION?}.jar # created by assembly command above
 
 # ---------------------------------------------------------------------------
 # backup source for good measure
@@ -104,7 +99,7 @@ if true; then
   done
   
 else  # if want to skip and use a local copy instead (recommended if doing more than one run)
-  : # cp <your-local-copy>/* /tmp/${BUCKET?}/data  
+  : # cp <your-local-copy>/* /tmp/${BUCKET?}/data
 fi
 
 
@@ -122,9 +117,9 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-aws s3 cp /tmp/${BUCKET?}/code.tgz                                                          s3://${BUCKET?}/source.tgz
-aws s3 cp /tmp/${BUCKET?}/code/${NAME?}/target/scala-2.12/${NAME?}-assembly-${VERSION?}.jar s3://${BUCKET?}/
-aws s3 cp /tmp/${BUCKET?}/data                                                              s3://${BUCKET?}/input --recursive # ~5min (TODO: TBC)
+aws s3 cp /tmp/${BUCKET?}/code.tgz                                                                              s3://${BUCKET?}/source.tgz
+aws s3 cp /tmp/${BUCKET?}/code/${NAME?}/target/scala-${SCALA_VERSION?}/${NAME?}-assembly-${GALLIA_VERSION?}.jar s3://${BUCKET?}/
+aws s3 cp /tmp/${BUCKET?}/data                                                                                  s3://${BUCKET?}/input --recursive # ~5min (TODO: TBC)
 
 
 # ===========================================================================
@@ -148,7 +143,7 @@ CLUSTER=$(\
       "Name"           : "'${NAME?}'",
       "Args"           : [
           "--class", "galliaexample.genemania.GeneManiaSparkDriver",
-            "s3://'${BUCKET?}'/'${NAME?}'-assembly-'${VERSION?}'.jar",
+            "s3://'${BUCKET?}'/'${NAME?}'-assembly-'${GALLIA_VERSION?}'.jar",
               "s3://'${BUCKET?}'/input", ".gz", "'${MAX_FILES?}'",
               "s3://'${BUCKET?}'/output" ] }') # "0" for "all"
 

@@ -6,7 +6,7 @@ lazy val root = (project in file("."))
     organizationName     := "Gallia Project",
     organization         := "io.github.galliaproject", // *must* match groupId for sonatype
     name                 := "gallia-genemania-spark",
-    version              := "0.3.0",    
+    version              := "0.3.1",    
     homepage             := Some(url("https://github.com/galliaproject/gallia-genemania-spark")),
     scmInfo              := Some(ScmInfo(
         browseUrl  = url("https://github.com/galliaproject/gallia-genemania-spark"),
@@ -17,7 +17,7 @@ lazy val root = (project in file("."))
   .settings(scalaVersion := "2.12.13") // override core's (too early for spark+2.13)
 
 // ===========================================================================    
-lazy val galliaVersion = "0.3.0"
+lazy val galliaVersion = "0.3.1"
 
 // ---------------------------------------------------------------------------
 libraryDependencies ++= Seq(
