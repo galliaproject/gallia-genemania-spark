@@ -194,15 +194,11 @@ Apache2.0 License:
 
 	Apache Commons IO (c) 2002-2021 The Apache Software Foundation
 
-	Guava (c) Google Inc.
-
 	GSON (c) 2008 Google Inc.
 
 	SBT (c) 2011 - 2017 Lightbend, Inc. and (c) 2008 - 2010 Mark Harrah
 	
 	SBT Sonatype (c) 2014 - 2021 Taro L. Saito
-
-	Apache Spark (c) 2014 and onward the Apache Software Foundation
 
 These libraries are subject to the terms of the Apache2.0 licence. The Apache2.0 license, including rightful copyright holders and terms and conditions of the license, can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
 

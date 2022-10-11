@@ -32,7 +32,7 @@ if [ "${MAX_FILES}" == "ALL" ]; then MAX_FILES=1000; fi
 # ---------------------------------------------------------------------------
           NAME="gallia-genemania-spark"
         BUCKET="${NAME?}$(date '+%y%m%d%H%M%S')"
- SCALA_VERSION="2.12" # 2.12.13
+ SCALA_VERSION="2.13"
 GALLIA_VERSION="0.3.1"
 
 # ---------------------------------------------------------------------------
