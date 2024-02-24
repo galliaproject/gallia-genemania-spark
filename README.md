@@ -12,7 +12,7 @@ For more information, see gallia-core [documentation](https://github.com/galliap
 
 ### Description
 
-This is the [Spark RDD-powered](http://todo) counterpart to the [genemania parent repo](http://todo) (which was using Gallia's ["poor man scaling"](https://github.com/galliaproject/gallia-core/blob/init/README.md#poor-man-scaling) instead of Spark)
+This is the [Spark RDD-powered](http://todo) counterpart to the [genemania parent repo](https://github.com/galliaproject/gallia-genemania) (which was using Gallia's ["poor man scaling"](https://github.com/galliaproject/gallia-core/blob/init/README.md#poor-man-scaling) instead of Spark)
 
 #### Test Run
 
@@ -68,5 +68,5 @@ See list of [spark-related tasks](https://github.com/galliaproject/gallia-docs/b
 - <sup>[2]</sup> <a name="cost-estimate"></a>Cost estimates provided are not guaranteed __at all__, run it at own risk (but please let me know if yours are significantly different)
 
 ## Contact
-You may contact the author at: <sub><img src="./images/ct.png"></sub>
+You may contact the author at cros.anthony@gmail.com
 
